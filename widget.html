@@ -1,0 +1,1151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<body>
+    <style>
+        @media only screen and (max-width: 767px) {
+    /* gaya untuk tampilan desktop dengan max-width 1024px */
+    @import url('https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i');
+    * {
+        margin: 0;
+        padding: 0;
+      box-sizing: border-box;
+    }
+  
+    body {
+        font-family: 'Lato', sans-serif;
+        font-size: 14px;
+        color: #999999;
+        word-wrap: break-word;
+        width: 100%;
+  
+    }
+  
+    ul {
+        list-style: none;
+    }
+  
+     .chatbox-holder {
+       position: fixed;
+       width: auto;
+       bottom: 0;
+       /* Atur Rata Kanan dan Kiri */
+       right: 0;
+       display: flex;
+       padding: 4px 4px;
+        z-index: 9999;
+     }
+  
+     .chatbox {
+       width: 350px;
+       height: 500px;
+       margin: 0 20px 0 0;
+       position: relative;
+       box-shadow: 0 0 5px 0 rgba(0, 0, 0, .2);
+       display: flex;
+       flex-flow: column;
+       border-radius: 10px 10px 0 0;
+       background: white;
+       bottom: 0;
+       transition: .1s ease-out;
+     }
+  
+     .chatbox-top {
+       position: relative;
+       display: flex;
+       padding: 10px 0 30px 0px;
+       border-radius: 10px 10px 0 0;
+       background: #5F4DEE;
+  
+     }
+  
+     .chatbox-icons {
+       padding: 0 10px 0 0;
+       display: flex;
+       position: relative;
+     }
+  
+     .chatbox-icons .fa {
+       background: rgba(220, 0, 0, .6);
+       padding: 3px 5px;
+       margin: 0 0 0 3px;
+       color: white;
+       border-radius: 0 5px 0 5px;
+       transition: 0.3s;
+     }
+  
+     .chatbox-icons .fa:hover {
+       border-radius: 5px 0 5px 0;
+       background: rgba(220, 0, 0, 1);
+     }
+  
+     .chatbox-icons a, .chatbox-icons a:link, .chatbox-icons a:visited {
+       color: white;
+       font-size: 20px;
+     }
+  
+     .chat-partner-name, .chat-group-name {
+       flex: 1;
+       padding: 0 0 0 95px;
+       font-size: 15px;
+       font-weight: bold;
+       color: white;
+       text-shadow: 1px 1px 0 black;
+       transition: .1s ease-out;
+     }
+  
+     .status {
+       width: 12px;
+       height: 12px;
+       border-radius: 50%;
+       display: inline-block;
+       box-shadow: inset 0 0 3px 0 rgba(0, 0, 0, 0.2);
+       border: 1px solid rgba(0, 0, 0, 0.15);
+       background: #cacaca;
+       margin: 0 3px 0 0;
+     }
+  
+     .online {
+       background: #b7fb00;
+     }
+  
+     .away {
+       background: #ffae00;
+     }
+  
+     .donot-disturb {
+       background: #ff4343;
+     }
+  
+     .chatbox-avatar {
+       width: 50px;
+       height: 50px;
+       overflow: hidden;
+       border-radius: 50%;
+       background: white;
+       padding: 3px;
+       box-shadow: 0 0 5px 0 rgba(0, 0, 0, .2);
+       position: absolute;
+       transition: .1s ease-out;
+       bottom: 10px;
+       left: 6px;
+     }
+  
+     .chatbox-avatar img {
+       width: 100%;
+       height: 100%;
+       border-radius: 50%;
+     }
+  
+     .chat-messages {
+       border-top: 1px solid rgba(0, 0, 0, .05);
+       padding: 10px;
+       overflow: auto;
+       display: flex;
+       flex-flow: row wrap;
+       align-content: flex-start;
+       flex: 1;
+       background-color: #fff;
+     }
+  
+     .message-box-holder {
+       width: 100%;
+       margin: 0 0 15px;
+       display: flex;
+       flex-flow: column;
+       align-items: flex-end;
+     }
+  
+     .message-sender {
+       font-size: 12px;
+       margin: 0 0 8px;
+       color: #30649c;
+       align-self: flex-start;
+     }
+  
+     .message-receive {
+       font-size: 12px;
+       margin: 0 0 10px;
+       color: #30649c;
+       align-self: flex-end;
+     }
+  
+     .message-sender a, .message-sender a:link, .message-sender a:visited, .chat-partner-name a, .chat-partner-name a:link, .chat-partner-name a:visited {
+       color: white;
+       text-decoration: none;
+       font-size: 20px;
+     }
+  
+     .message-box {
+       padding: 6px 10px;
+       border-radius: 6px 0 6px 0;
+       background:#5F4DEE;
+       border: 2px solid rgba(100, 170, 0, .1);
+       border-radius: 16px 16px 16px 16px;
+       -webkit-border-radius: 16px 16px 16px 16px;
+       -moz-border-radius: 16px 16px 16px 16px;
+       color: white;
+       font-size: 13px;
+  
+     }
+  
+     .message-box:after {
+       content: "";
+       position: absolute;
+       border: 10px solid transparent;
+       border-top: 10px solid rgba(100, 170, 0, .2);
+       border-right: none;
+       bottom: -22px;
+       right: 10px;
+     }
+  
+     .message-partner {
+       background: #2d8a62;
+       margin-left: 30px;
+       border: 2px solid rgba(0, 114, 135, .1);
+       align-self: flex-start;
+     }
+  
+     .chat-input-holder {
+       background: white;
+       color:black;
+       display: flex;
+       border-top: 1px solid rgba(0, 0, 0, .1);
+     }
+  
+     .chat-input {
+       resize: none;
+       padding: 5px 10px;
+       height: 60px;
+       font-family: 'Lato', sans-serif;
+         font-size: 14px;
+       color: #999999;
+       flex: 1;
+       border: none;
+       background: rgba(0, 0, 0, .05);
+        border-bottom: 1px solid rgba(0, 0, 0, .05);
+     }
+  
+  
+     .chat-input:focus, .message-send:focus {
+       outline: none;
+     }
+  
+     .message-send::-moz-focus-inner {
+         border:0;
+         padding:0;
+     }
+  
+     .message-send {
+       -webkit-appearance: none;
+       color: white;
+       font-size: 12px;
+       padding: 10px 15px;
+       border: none;
+       text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.3);
+     }
+  
+     .attachment-panel {
+       padding: 3px 10px;
+       text-align: right;
+     }
+  
+     .attachment-panel a, .attachment-panel a:link, .attachment-panel a:visited {
+       margin: 0 0 0 7px;
+       text-decoration: none;
+       color: rgba(0, 0, 0, 0.5);
+     }
+  
+     .chatbox-min {
+       margin-bottom: -362px;
+     /*   height: 46px; */
+     }
+  
+     .chatbox-min .chatbox-avatar {
+       width: 60px;
+       height: 60px;
+     }
+  
+     .chatbox-min .chat-partner-name, .chatbox-min .chat-group-name {
+       padding: 0 0 0 75px;
+     }
+  
+     .settings-popup {
+       background: white;
+         border-radius: 20px/10px;
+         box-shadow: 0 3px 5px 0 rgba(0, 0, 0, .2);
+       font-size: 13px;
+         opacity: 0;
+         padding: 10px 0;
+         position: absolute;
+         right: 0;
+         text-align: left;
+         top: 33px;
+         transition: .15s;
+         transform: scale(1, 0);
+         transform-origin: 50% 0;
+         width: 120px;
+       z-index: 2;
+       border-top: 1px solid rgba(0, 0, 0, .2);
+       border-bottom: 2px solid rgba(0, 0, 0, .3);
+     }
+  
+     .settings-popup:after, .settings-popup:before {
+       border: 7px solid transparent;
+         border-bottom: 7px solid white;
+         border-top: none;
+         content: "";
+         position: absolute;
+         left: 45px;
+         top: -10px;
+       border-top: 3px solid rgba(0, 0, 0, .2);
+     }
+  
+     .settings-popup:before {
+       border-bottom: 7px solid rgba(0, 0, 0, .25);
+       top: -11px;
+     }
+  
+     .settings-popup:after {
+       border-top-color: transparent;
+     }
+  
+     #chkSettings {
+         display: none;
+     }
+  
+     #chkSettings:checked + .settings-popup {
+         opacity: 1;
+         transform: scale(1, 1);
+     }
+  
+     .settings-popup ul li a, .settings-popup ul li a:link, .settings-popup ul li a:visited {
+       color: #999;
+       text-decoration: none;
+       display: block;
+       padding: 5px 10px;
+     }
+  
+     .settings-popup ul li a:hover {
+       background: rgba(0, 0, 0, .05);
+     }
+  
+  
+        #chat-circle {
+         bottom: 0;
+       position: fixed;
+     /*  bottom: 50px;*/
+       /* left: 50px; */
+       right: 0;
+       /* background: #5A5EB9; */
+       width: 25px;
+       height: 45px;
+       /* border-radius: 50%; */
+       color: white;
+       padding-top: 5px;
+      /* padding: 28px; */
+       cursor: pointer;
+       /* box-shadow: 0px 3px 16px 0px rgba(0, 0, 0, 0.6), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12); */
+     }
+  
+     .btn#my-btn {
+          background: white;
+         padding-top: 13px;
+         padding-bottom: 12px;
+         border-radius: 45px;
+         padding-right: 40px;
+         padding-left: 40px;
+         color: #5865C3;
+     }
+     #chat-overlay {
+         background: rgba(255,255,255,0.1);
+         position: absolute;
+         top: 0;
+         left: 0;
+         width: 100%;
+         height: 100%;
+         border-radius: 50%;
+         display: none;
+     }
+     .chatbutton {
+       width: 70px;
+       height: 70px;
+       position: fixed;
+       bottom: 20px;
+       /* Mengatur Kanan Kiri Gambar */
+       right: 20px;
+       z-index: 100;
+     }
+     .file_img{
+        background: rgba(0, 0, 0, .05);
+       padding: 10px 10px;
+  
+     }
+  
+     .popupss {
+      display: none; /* Mulai dengan popup tersembunyi */
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5); /* Latar belakang transparan */
+      z-index: 9999; /* Menempatkan popup di atas elemen lain */
+    }
+  
+    .popupss-content {
+      background-color: #fff;
+      max-width: 400px;
+      margin: 100px auto; /* Posisikan popup di tengah secara vertikal */
+      padding: 20px;
+      text-align: center;
+    }
+  
+    /* Animasi untuk memunculkan popup */
+    .popupss.show {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+  
+    }
+  
+    .avatar_img{
+  
+      /* margin-right: 10px; */
+  
+      width: 45px;
+      padding: 5px;
+    }
+    .avatar_img_admin{
+  
+      /* margin-right: 10px; */
+  
+      width: 45px;
+      padding: 5px;
+    }
+    .span_avatar{
+      color: #30649c;
+      font-size: 12px;
+      font-weight: bold;
+    }
+  
+  #form_layanan{
+    overflow:scroll;height:100%;
+  }
+
+  ol.alterlist { padding-left: 50px;list-style-type: none; }
+li.list-colors { 
+  cursor : pointer; 
+  color: #4F4F4F; 
+  padding-left: 16px;
+  margin-top: 24px;
+  position: relative;
+  font-size: 16px;
+  line-height: 20px;
+  
+  &:before {
+    content: '';
+      display: block;
+      height: 35px;
+      width: 34px;
+      border-radius: 50%;
+      border: 2px solid #ddd;
+      position: absolute;
+      top: 10px;
+      left: -46px;
+  }
+}
+
+strong { color: #292929; }
+
+ol.alternating-colors { 
+  li:nth-child(odd):before { border-color: #ff0000; }
+  li.list-colors:nth-child(even):before { border-color: #2378D5; }
+}
+  }
+  
+
+
+/* TAMPILAN MOBILE DAN DEKSTOP */
+ 
+  
+
+
+  @media only screen and (min-width: 1024px) {
+    /* gaya untuk tampilan desktop dengan max-width 1024px */
+    @import url('https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i');
+  
+    * {
+        margin: 0;
+        padding: 0;
+      box-sizing: border-box;
+    }
+  
+    body {
+        font-family: 'Lato', sans-serif;
+        font-size: 14px;
+        color: #999999;
+        word-wrap: break-word;
+        width: 100%;
+  
+    }
+  
+    ul {
+        list-style: none;
+    }
+  
+     .chatbox-holder {
+       position: fixed;
+       /* left: 1000; */
+       width: auto;
+       bottom: 0;
+       /* Atur Rata Kanan dan Kiri */
+       right: 0;
+       display: flex;
+       /* align-items: flex-end; */
+       padding: 4px 4px;
+        z-index: 9999;
+       /* height: 0; */
+     }
+  
+     .chatbox {
+       width: 430px;
+       height: 500px;
+       margin: 0 20px 0 0;
+       position: relative;
+       box-shadow: 0 0 5px 0 rgba(0, 0, 0, .2);
+       display: flex;
+       flex-flow: column;
+       border-radius: 10px 10px 0 0;
+       background: white;
+       bottom: 0;
+       transition: .1s ease-out;
+       /* z-index: 9999; */
+     }
+  
+     .chatbox-top {
+       position: relative;
+       display: flex;
+       padding: 10px 0 30px 0px;
+       border-radius: 10px 10px 0 0;
+       background: #5F4DEE;
+  
+     }
+  
+     .chatbox-icons {
+       padding: 0 10px 0 0;
+       display: flex;
+       position: relative;
+     }
+  
+     .chatbox-icons .fa {
+       background: rgba(220, 0, 0, .6);
+       padding: 3px 5px;
+       margin: 0 0 0 3px;
+       color: white;
+       border-radius: 0 5px 0 5px;
+       transition: 0.3s;
+     }
+  
+     .chatbox-icons .fa:hover {
+       border-radius: 5px 0 5px 0;
+       background: rgba(220, 0, 0, 1);
+     }
+  
+     .chatbox-icons a, .chatbox-icons a:link, .chatbox-icons a:visited {
+       color: white;
+       font-size: 20px;
+     }
+  
+     .chat-partner-name, .chat-group-name {
+       flex: 1;
+       padding: 0 0 0 95px;
+       font-size: 15px;
+       font-weight: bold;
+       color: white;
+       text-shadow: 1px 1px 0 black;
+       transition: .1s ease-out;
+     }
+  
+     .status {
+       width: 12px;
+       height: 12px;
+       border-radius: 50%;
+       display: inline-block;
+       box-shadow: inset 0 0 3px 0 rgba(0, 0, 0, 0.2);
+       border: 1px solid rgba(0, 0, 0, 0.15);
+       background: #cacaca;
+       margin: 0 3px 0 0;
+     }
+  
+     .online {
+       background: #b7fb00;
+     }
+  
+     .away {
+       background: #ffae00;
+     }
+  
+     .donot-disturb {
+       background: #ff4343;
+     }
+  
+     .chatbox-avatar {
+       width: 50px;
+       height: 50px;
+       overflow: hidden;
+       border-radius: 50%;
+       background: white;
+       padding: 3px;
+       box-shadow: 0 0 5px 0 rgba(0, 0, 0, .2);
+       position: absolute;
+       transition: .1s ease-out;
+       bottom: 10px;
+       left: 6px;
+     }
+  
+     .chatbox-avatar img {
+       width: 100%;
+       height: 100%;
+       border-radius: 50%;
+     }
+  
+     .chat-messages {
+       border-top: 1px solid rgba(0, 0, 0, .05);
+       padding: 10px;
+       overflow: auto;
+       display: flex;
+       flex-flow: row wrap;
+       align-content: flex-start;
+       flex: 1;
+       background-color: #fff;
+     }
+  
+     .message-box-holder {
+       width: 100%;
+       margin: 0 0 15px;
+       display: flex;
+       flex-flow: column;
+       align-items: flex-end;
+     }
+  
+     .message-sender {
+       font-size: 12px;
+       margin: 0 0 8px;
+       color: #30649c;
+       align-self: flex-start;
+     }
+  
+     .message-receive {
+       font-size: 12px;
+       margin: 0 0 10px;
+       color: #30649c;
+       align-self: flex-end;
+         /* border-bottom: 1px solid #aaa; */
+     }
+  
+     .message-sender a, .message-sender a:link, .message-sender a:visited, .chat-partner-name a, .chat-partner-name a:link, .chat-partner-name a:visited {
+       color: white;
+       text-decoration: none;
+       font-size: 20px;
+     }
+  
+     .message-box {
+       padding: 6px 10px;
+       border-radius: 6px 0 6px 0;
+       /* position: relative; */
+       background:#5F4DEE;
+       border: 2px solid rgba(100, 170, 0, .1);
+       border-radius: 16px 16px 16px 16px;
+       -webkit-border-radius: 16px 16px 16px 16px;
+       -moz-border-radius: 16px 16px 16px 16px;
+       color: white;
+       font-size: 13px;
+  
+     }
+  
+     .message-box:after {
+       content: "";
+       position: absolute;
+       border: 10px solid transparent;
+       border-top: 10px solid rgba(100, 170, 0, .2);
+       border-right: none;
+       bottom: -22px;
+       right: 10px;
+     }
+  
+     .message-partner {
+       background: #2d8a62;
+       margin-left: 30px;
+       border: 2px solid rgba(0, 114, 135, .1);
+       align-self: flex-start;
+     }
+  
+     /* .message-partner:after {
+       right: auto;
+       bottom: auto;
+       top: -22px;
+       left: 9px;
+       border: 10px solid transparent;
+       border-bottom: 10px solid rgba(0, 114, 135, .2);
+       border-left: none;
+     } */
+  
+     .chat-input-holder {
+       background: white;
+       color:black;
+       display: flex;
+       border-top: 1px solid rgba(0, 0, 0, .1);
+     }
+  
+     .chat-input {
+       resize: none;
+       padding: 5px 10px;
+       height: 60px;
+       font-family: 'Lato', sans-serif;
+         font-size: 14px;
+       color: #999999;
+       flex: 1;
+       border: none;
+       background: rgba(0, 0, 0, .05);
+        border-bottom: 1px solid rgba(0, 0, 0, .05);
+     }
+  
+  
+     .chat-input:focus, .message-send:focus {
+       outline: none;
+     }
+  
+     .message-send::-moz-focus-inner {
+         border:0;
+         padding:0;
+     }
+  
+     .message-send {
+       -webkit-appearance: none;
+       color: white;
+       font-size: 12px;
+       padding: 10px 15px;
+       border: none;
+       text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.3);
+     }
+  
+     .attachment-panel {
+       padding: 3px 10px;
+       text-align: right;
+     }
+  
+     .attachment-panel a, .attachment-panel a:link, .attachment-panel a:visited {
+       margin: 0 0 0 7px;
+       text-decoration: none;
+       color: rgba(0, 0, 0, 0.5);
+     }
+  
+     .chatbox-min {
+       margin-bottom: -362px;
+     /*   height: 46px; */
+     }
+  
+     .chatbox-min .chatbox-avatar {
+       width: 60px;
+       height: 60px;
+     }
+  
+     .chatbox-min .chat-partner-name, .chatbox-min .chat-group-name {
+       padding: 0 0 0 75px;
+     }
+  
+     .settings-popup {
+       background: white;
+         border-radius: 20px/10px;
+         box-shadow: 0 3px 5px 0 rgba(0, 0, 0, .2);
+       font-size: 13px;
+         opacity: 0;
+         padding: 10px 0;
+         position: absolute;
+         right: 0;
+         text-align: left;
+         top: 33px;
+         transition: .15s;
+         transform: scale(1, 0);
+         transform-origin: 50% 0;
+         width: 120px;
+       z-index: 2;
+       border-top: 1px solid rgba(0, 0, 0, .2);
+       border-bottom: 2px solid rgba(0, 0, 0, .3);
+     }
+  
+     .settings-popup:after, .settings-popup:before {
+       border: 7px solid transparent;
+         border-bottom: 7px solid white;
+         border-top: none;
+         content: "";
+         position: absolute;
+         left: 45px;
+         top: -10px;
+       border-top: 3px solid rgba(0, 0, 0, .2);
+     }
+  
+     .settings-popup:before {
+       border-bottom: 7px solid rgba(0, 0, 0, .25);
+       top: -11px;
+     }
+  
+     .settings-popup:after {
+       border-top-color: transparent;
+     }
+  
+     #chkSettings {
+         display: none;
+     }
+  
+     #chkSettings:checked + .settings-popup {
+         opacity: 1;
+         transform: scale(1, 1);
+     }
+  
+     .settings-popup ul li a, .settings-popup ul li a:link, .settings-popup ul li a:visited {
+       color: #999;
+       text-decoration: none;
+       display: block;
+       padding: 5px 10px;
+     }
+  
+     .settings-popup ul li a:hover {
+       background: rgba(0, 0, 0, .05);
+     }
+  
+  
+        #chat-circle {
+         bottom: 0;
+       position: fixed;
+     /*  bottom: 50px;*/
+       /* left: 50px; */
+       right: 0;
+       /* background: #5A5EB9; */
+       width: 25px;
+       height: 45px;
+       /* border-radius: 50%; */
+       color: white;
+       padding-top: 5px;
+      /* padding: 28px; */
+       cursor: pointer;
+       /* box-shadow: 0px 3px 16px 0px rgba(0, 0, 0, 0.6), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12); */
+     }
+  
+     .btn#my-btn {
+          background: white;
+         padding-top: 13px;
+         padding-bottom: 12px;
+         border-radius: 45px;
+         padding-right: 40px;
+         padding-left: 40px;
+         color: #5865C3;
+     }
+     #chat-overlay {
+         background: rgba(255,255,255,0.1);
+         position: absolute;
+         top: 0;
+         left: 0;
+         width: 100%;
+         height: 100%;
+         border-radius: 50%;
+         display: none;
+     }
+     .chatbutton {
+       width: 70px;
+       height: 70px;
+       position: fixed;
+       bottom: 20px;
+       /* Mengatur Kanan Kiri Gambar */
+       right: 20px;
+       z-index: 100;
+     }
+     .file_img{
+        background: rgba(0, 0, 0, .05);
+       padding: 10px 15px;
+  
+     }
+  
+     .popupss {
+      display: none; /* Mulai dengan popup tersembunyi */
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5); /* Latar belakang transparan */
+      z-index: 9999; /* Menempatkan popup di atas elemen lain */
+    }
+  
+    .popupss-content {
+      background-color: #fff;
+      max-width: 400px;
+      margin: 100px auto; /* Posisikan popup di tengah secara vertikal */
+      padding: 20px;
+      text-align: center;
+    }
+  
+    /* Animasi untuk memunculkan popup */
+    .popupss.show {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+  
+    }
+  
+    .avatar_img{
+  
+      /* margin-right: 10px; */
+  
+      width: 45px;
+      padding: 5px;
+    }
+    .avatar_img_admin{
+  
+      /* margin-right: 10px; */
+  
+      width: 45px;
+      padding: 5px;
+    }
+    .span_avatar{
+      color: #30649c;
+      font-size: 12px;
+      font-weight: bold;
+    }
+    #form_layanan{
+      overflow:scroll;height:100%;
+    }
+
+    ol.alterlist { padding-left: 50px;list-style-type: none; }
+  li.list-colors { 
+    cursor : pointer; 
+    color: #4F4F4F; 
+    padding-left: 16px;
+    margin-top: 24px;
+    position: relative;
+    font-size: 16px;
+    line-height: 20px;
+    
+    &:before {
+      content: '';
+      display: block;
+      height: 35px;
+      width: 34px;
+      border-radius: 50%;
+      border: 2px solid #ddd;
+      position: absolute;
+      top: 10px;
+      left: -46px;
+    }
+  }
+  
+  strong { color: #292929; }
+  
+  ol.alternating-colors { 
+    li:nth-child(odd):before { border-color: #ff0000;background-color: #ff0000; }
+    li.list-colors:nth-child(even):before { border-color: #2378D5;background-color: #2378D5; }
+  }
+ 
+
+
+}
+  
+.alert-dismissible {
+  padding-right: 3rem;
+}
+.alert-dismissible .btn-close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 2;
+  padding: 1.25rem 1rem;
+}
+
+.btn-close {
+  box-sizing: content-box;
+  width: 1em;
+  height: 1em;
+  padding: 0.25em 0.25em;
+  color: #000;
+  background: transparent
+    url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23000'%3e%3cpath d='M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z'/%3e%3c/svg%3e")
+    center/1em auto no-repeat;
+  border: 0;
+  border-radius: 0.25rem;
+  opacity: 0.5;
+}
+.btn-close:hover {
+  color: #000;
+  text-decoration: none;
+  opacity: 0.75;
+}
+.btn-close:focus {
+  outline: 0;
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+  opacity: 1;
+}
+.btn-close.disabled,
+.btn-close:disabled {
+  pointer-events: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  opacity: 0.25;
+}
+.btn-close-white {
+  filter: invert(1) grayscale(100%) brightness(200%);
+}
+    </style>
+<!-- Chat Widget HTML Version -->
+
+<!-- Popup for Image Upload -->
+<div id="popupss" class="popupss">
+  <div class="popupss-content">
+    <div style="align-items: flex-end;"></div>
+    <h3>Kirim Gambar</h3>
+    <br>
+    <canvas style="width:350px;height:300px" id="our-canvas" class="image-container"></canvas>
+    <input type="text" hidden id="Base64IMG">
+    <input type="text" placeholder="Caption" class="form-control" style="margin-top:50px;" id="caption_img">
+    <br>
+    <button type="button" onclick="send_img()" class="btn btn-primary">Send</button>
+    <button type="button" onclick="closePopup()" class="btn btn-danger mr-3">Cancel</button>
+  </div>
+</div>
+
+<h1 id="name" style="display:none;"></h1>
+<h1 id="log" style="display:none;"></h1>
+<h1 id="idnya" style="display:none;"></h1>
+<input type="text" hidden id="socketID">
+<input type="text" hidden id="socketIDAdmin">
+
+<!-- Chat Button -->
+<!-- <div class="chatbutton">
+  <a href="javascript:void(0);" class="click-show">
+    <span id="jmlhchat" style="position:absolute;top:-15px;right:-5px;font-size:12px;display:none;" class="translate-middle badge rounded-pill text-dark bg-info">0</span>
+    <img src="widget/live-chat.png" id="gambar_widget" style="width:80px;" alt="Chat-Button">
+  </a>
+</div> -->
+
+<!-- Chat Box -->
+<div id="displaychat" class="displaychatclass" style="display:block;">
+  <div class="chatbox-holder">
+    <div class="chatbox" id="chatbbox">
+      <div class="chatbox-top">
+        <div class="chatbox-avatar">
+          <a target="_blank" href=""><img id="icon_admin" src="https://cdn-icons-png.flaticon.com/128/2543/2543339.png" /></a>
+        </div>
+        <div class="chat-partner-name">
+          <span id="status" class="status donot-disturb"></span>
+          <a target="_blank" id="nama_admin" href="">Live Chat</a><br>
+        </div>
+        <div class="chatbox-icons">
+          <a href="javascript:void(0);" onclick="window.parent.postMessage('close-widget', '*')"><i class="fa fa-close"></i></a>
+        </div>
+      </div>
+
+      <div class="alert alert-danger alert-dismissible fade show" role="alert" id="dangerAlert" style="display: none;">
+        <div id="TextAlert">ERROR</div>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+
+      <div class="container-fluid col-lg-12 p-4" id="form_layanan">
+        <p style="font-size:25px;font-weight:bold;margin-bottom:10px;">Hallo ... 👋</p>
+        <div class="list-group" id="groupLayanan"></div>
+        <br>
+        <button class="btn btn-info text-white" onclick="MenghubugkanAdmin()">Hubungkan Saya Ke Admin</button>
+      </div>
+
+      <div class="container-fluid col-lg-12" style="display:none;" id="form_login">
+        <input type="text" placeholder="Email" class="form-control" style="margin-top:50px;" id="username">
+        <br>
+        <div class="row">
+          <button onclick="joined()" class="btn btn-info float-left col-lg-5 col-5 text-white" style="margin-right:5px;margin-left:10px;" id="submit">Submit</button>
+          <button class="btn btn-danger text-white col-lg-5 col-5" onclick="BackToHome()">Kembali</button>
+        </div>
+      </div>
+
+      <nav class="navbar navbar-chat navbar-expand-lg bg-light" style="display:none;">
+        <div class="container-fluid" id="container-navbar">
+          <a class="navbar-text" onclick="ShowLayananInfo()" href="javascript:void(0)">
+            <!-- icon list-search -->
+          </a>
+          <a class="navbar-text" onclick="SelesaiSesi();" id="SelesaiSesi" href="javascript:void(0)">
+            <!-- icon door-exit -->
+          </a>
+          <a class="navbar-text" target="_blank" id="whatsapp_admin" href="javascript:void(0)">
+            <!-- icon whatsapp -->
+          </a>
+          <a class="navbar-text" href="javascript:void(0)">
+            <!-- icon instagram -->
+          </a>
+        </div>
+      </nav>
+
+      <div class="chat-messages" id="chhhtt"></div>
+
+      <div class="chat-input-holder" style="display:none;" id="form_chat">
+        <textarea id="pesan" placeholder="Write Your Message" class="chat-input"></textarea>
+        <div class="file_img">
+          <i class="fa fa-image fa-xl" onclick="openFILE()"></i>
+        </div>
+        <div class="file_img">
+          <i class="fa fa-file-arrow-down fa-xl" onclick="unduhFile()"></i>
+        </div>
+        <input id="fileid" onchange="return validasiEkstensi()" type="file" hidden />
+        <button type="submit" onclick="Submit_Pesan()" class="message-send">
+          <img src="https://cdn-icons-png.flaticon.com/128/9131/9131510.png" style="width:20px;margin-bottom: 20px;color:blue;" alt="">
+        </button>
+      </div>
+
+      <small>&copy; 2024 Powered By DumyTeam.</small>
+    </div>
+  </div>
+</div>
+
+<div id="DummyChatId">
+
+</div>
+
+</body>
+
+<script src="assets/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js" integrity="sha512-v8ng/uGxkge3d1IJuEo6dJP8JViyvms0cly9pnbfRxT6/31c3dRWxIiwGnMSWwZjHKOuY3EVmijs7k1jz/9bLA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js"></script>
+<script src="assets/widget.js"></script>
+<script>
+     function sendSizeToParent() {
+   const elem = document.querySelector(".chatbox-holder");
+    const rect = elem.getBoundingClientRect(); // posisi relatif terhadap viewport
+    const style = window.getComputedStyle(elem); // baca style CSS
+    const height = elem.offsetHeight;
+    const width = elem.offsetWidth;
+
+    window.parent.postMessage(
+      {
+        type: "resize-iframe",
+        height: height,
+        width: width,
+      left: style.left,
+      right: style.right,
+      bottom: style.bottom
+      },
+      "*"
+    );
+  }
+
+  // Kirim saat DOM siap
+  window.addEventListener("DOMContentLoaded", sendSizeToParent);
+
+  // Kirim ulang saat resize (opsional)
+  window.addEventListener("resize", sendSizeToParent);
+</script>
+</html>
