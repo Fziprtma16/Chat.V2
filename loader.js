@@ -66,7 +66,9 @@ function setCSS(selector, styles) {
 
 const iframe = document.createElement("iframe");
 iframe.id = "chatIframe";
-iframe.src = "https://routers.dummytech.my.id:2020/chatembed/bodychat.html";
+iframe.src =
+  "https://routers.dummytech.my.id:2020/chatembed/bodychat.html?roomsID=" +
+  roomsIDX;
 iframe.style.display = "none";
 iframe.style.position = "fixed";
 iframe.style.bottom = 0;
