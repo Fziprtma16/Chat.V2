@@ -1,4 +1,6 @@
-var roomsIDX = getQueryParam("roomsID");
+const currentScript = document.currentScript;
+const roomsDataGet = currentScript.getAttribute("data-roomsID");
+var roomsIDX = roomsDataGet;
 const UrlMainButton =
   "https://routers.dummytech.my.id:2020/DummyChat/Endpoint/";
 const variable =
